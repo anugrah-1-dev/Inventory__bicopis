@@ -17,14 +17,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Shop::factory(1)->create();
-        User::factory()->create([
-            'name' => 'Admin Bicopis',
-            'email' => 'admin@bicopis.com',
-            'password' => bcrypt('password'),
-        ]);
-        ProductCategory::factory(1)->create();
-        ProductUnit::factory(1)->create();
+        if (Shop::count() === 0) {
+            Shop::factory(1)->create();
+        }
+
+        $shop = Shop::first();
+
+        User::firstOrCreate(
+            ['email' => 'admin@bicopis.com'],
+            [
+                'name' => 'Admin Bicopis',
+                'password' => bcrypt('password'),
+                'shop_id' => $shop->id ?? 1
+            ]
+        );
+
+        if (ProductCategory::count() === 0) {
+            ProductCategory::factory(1)->create();
+        }
+        
+        if (ProductUnit::count() === 0) {
+            ProductUnit::factory(1)->create();
+        }
         // Product::factory(51)->create();
     }
 }
