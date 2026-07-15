@@ -115,11 +115,15 @@ export default function AuthLayout({
             >
                 <div className="overflow-y-auto py-5 px-3 h-full bg-white">
                     <ul className="space-y-2">
+
+                        <li>
+                            <div className="text-xs font-semibold text-gray-400 uppercase px-5 mt-4 mb-2">Kitchen</div>
+                        </li>
                         <li>
                             <Link
-                                href="/dashboard"
+                                href="/dashboard?dept=kitchen"
                                 className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
-                                    url.startsWith("/dashboard")
+                                    url.startsWith("/dashboard?dept=kitchen") || url === "/dashboard"
                                         ? "text-white bg-primary-500 hover:bg-primary-600"
                                         : "text-gray-900 rounded hover:bg-primary-50"
                                 }`}
@@ -127,9 +131,6 @@ export default function AuthLayout({
                                 <Dashboard className="w-5 h-5" />
                                 Dashboard
                             </Link>
-                        </li>
-                        <li>
-                            <div className="text-xs font-semibold text-gray-400 uppercase px-5 mt-4 mb-2">Kitchen</div>
                         </li>
                         <li>
                             <Link
@@ -186,6 +187,19 @@ export default function AuthLayout({
 
                         <li>
                             <div className="text-xs font-semibold text-gray-400 uppercase px-5 mt-4 mb-2">Bar & Service</div>
+                        </li>
+                        <li>
+                            <Link
+                                href="/dashboard?dept=bar"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/dashboard?dept=bar")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Dashboard className="w-5 h-5" />
+                                Dashboard
+                            </Link>
                         </li>
                         <li>
                             <Link

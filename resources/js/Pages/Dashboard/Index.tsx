@@ -16,12 +16,14 @@ interface ChartProps {
   }
   
 
-export default function Index({ auth, flash, ziggy, countitem, currentyear, countin, countout, earnings, expenses }: DashboardProps & ChartProps) {
+export default function Index({ auth, flash, ziggy, countitem, currentyear, countin, countout, earnings, expenses, dept }: DashboardProps & ChartProps & {dept: string}) {
 
     return (
         <AuthLayout user={auth.user}>
             <div className="container mx-auto p-6">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Dashboard</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                    Dashboard {dept === 'bar' ? '(Bar & Service)' : '(Kitchen)'}
+                </h2>
                 <Alert flash={flash} />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

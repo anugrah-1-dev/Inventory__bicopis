@@ -17,13 +17,24 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $shop_id = Auth::user()->shop_id;
+        $dept = $request->query('dept', 'kitchen');
 
-        $countitem = Product::sum('stock');
-        $countin = ProductInDetail::sum('quantity');
-        $countout = ProductOutDetail::sum('quantity');
+        $countitem = Product::where('shop_id', $shop_id)->where('department', $dept)->sum('stock');
+        
+        $countin = ProductInDetail::whereHas('productIn', function ($q) use ($shop_id) {
+            $q->where('shop_id', $shop_id);
+        })->whereHas('product', function ($q) use ($dept) {
+            $q->where('department', $dept);
+        })->sum('quantity');
+
+        $countout = ProductOutDetail::whereHas('productOut', function ($q) use ($shop_id) {
+            $q->where('shop_id', $shop_id);
+        })->whereHas('product', function ($q) use ($dept) {
+            $q->where('department', $dept);
+        })->sum('quantity');
 
         $currentYear = Carbon::now()->year;
         
@@ -31,6 +42,10 @@ class DashboardController extends Controller
             DB::raw('MONTH(date) as month'), 
             DB::raw('SUM(total_price) as total_price')
         )
+        ->where('shop_id', $shop_id)
+        ->whereHas('detail.product', function ($q) use ($dept) {
+            $q->where('department', $dept);
+        })
         ->whereYear('date', $currentYear)
         ->groupBy(DB::raw('MONTH(date)'))
         ->orderBy(DB::raw('MONTH(date)'))
@@ -40,6 +55,10 @@ class DashboardController extends Controller
             DB::raw('MONTH(date) as month'), 
             DB::raw('SUM(total_price) as total_price')
         )
+        ->where('shop_id', $shop_id)
+        ->whereHas('detail.product', function ($q) use ($dept) {
+            $q->where('department', $dept);
+        })
         ->whereYear('date', $currentYear)
         ->groupBy(DB::raw('MONTH(date)'))
         ->orderBy(DB::raw('MONTH(date)'))
@@ -92,7 +111,7 @@ class DashboardController extends Controller
             'countout' => $countout,
             'earnings' => [$monthlyTotals['January'], $monthlyTotals['February'], $monthlyTotals['March'], $monthlyTotals['April'], $monthlyTotals['May'], $monthlyTotals['June'], $monthlyTotals['July'], $monthlyTotals['August'], $monthlyTotals['September'], $monthlyTotals['October'], $monthlyTotals['November'], $monthlyTotals['December']],
             'expenses' => [$monthlyTotals2['January'], $monthlyTotals2['February'], $monthlyTotals2['March'], $monthlyTotals2['April'], $monthlyTotals2['May'], $monthlyTotals2['June'], $monthlyTotals2['July'], $monthlyTotals2['August'], $monthlyTotals2['September'], $monthlyTotals2['October'], $monthlyTotals2['November'], $monthlyTotals2['December']],
+            'dept' => $dept
         ]);
     }
-    
 }
