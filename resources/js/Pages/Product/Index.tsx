@@ -31,7 +31,8 @@ export default function Index({
     flash,
 }: PageProps & { products: Products }) {
     const [isOpen, setIsOpen] = useState(false);
-    const { query } = usePage<{ query: { search?: string } }>().props;
+    const { query } = usePage<{ query: { search?: string, dept?: string } }>().props;
+    const dept = query.dept || 'kitchen';
 
     const productsList = products.data.map((product) => [
         productIdFormat(product.id),
@@ -62,7 +63,7 @@ export default function Index({
         <AuthLayout user={auth.user}>
             <div>
                 <h2 className="font-semibold text-gray-800 text-2xl mb-6 pt-2">
-                    Data Barang
+                    Data Barang {dept === 'bar' ? '(Bar & Service)' : '(Kitchen)'}
                 </h2>
                 <div className="mb-2 flex sm:flex-row flex-col-reverse sm:justify-between gap-3">
                     <SearchBox
@@ -77,7 +78,7 @@ export default function Index({
                         >
                             Scan
                         </Button>
-                        <Link href="/products/new" className="btn primary">
+                        <Link href={`/products/new?dept=${dept}`} className="btn primary">
                             <Add className="w-5 h-5" />
                             Tambah
                         </Link>

@@ -21,10 +21,14 @@ class ProductOutController extends Controller
         $search = request()->query('search');
         $column = request()->query('col');
         $sort = request()->query('sort');
+        $dept = request()->query('dept', 'kitchen');
 
         $shop_id = Auth::user()->shop_id;
         $productOuts = ProductOut::query()
-            ->where('shop_id', '=', $shop_id);
+            ->where('shop_id', '=', $shop_id)
+            ->whereHas('detail.product', function ($query) use ($dept) {
+                $query->where('department', $dept);
+            });
 
         if(preg_match('/^BK\d{3,}$/', $search)) $productOuts->where('id', 'like', (int)substr($search, 1));
         if(in_array($sort, ['asc', 'desc'])) $productOuts->orderBy($column, $sort);
@@ -34,7 +38,8 @@ class ProductOutController extends Controller
             'query' => [
                 'search' => $search,
                 'col' => $column,
-                'sort' => $sort
+                'sort' => $sort,
+                'dept' => $dept
             ]
         ]);
     }
@@ -45,16 +50,19 @@ class ProductOutController extends Controller
     public function create()
     {
         $product = request()->query('product');
+        $dept = request()->query('dept', 'kitchen');
 
         $shop_id = Auth::user()->shop_id;
         $products = Product::query()
             ->select('id', 'name', 'stock', 'price')
-            ->where('shop_id', $shop_id);
+            ->where('shop_id', $shop_id)
+            ->where('department', $dept);
 
         if ($products) $products->where('name', 'like', '%'.$product.'%');
 
         return Inertia::render('ProductOut/New', [
-            'products' => $products->take(5)->get()
+            'products' => $products->take(5)->get(),
+            'dept' => $dept
         ]);
     }
 
@@ -66,22 +74,26 @@ class ProductOutController extends Controller
         $shop_id = Auth::user()->shop_id;
         $request->validate([
             'date' => ['required', 'date'],
+            'shift' => ['nullable', 'in:1,2'],
             'products.*.id' => ['numeric', 'min:1'],
             'products.*.quantity' => ['numeric', 'min:1'],
         ],[
             'date.required' => 'Tanggal wajib diisi',
+            'shift.in' => 'Shift tidak valid',
             'product.*.id.min' => 'Barang wajib diisi',
             'product.*.quantity.min' => 'Jumlah barang minimal 1',
         ]);
 
         $shop_id = Auth::user()->shop_id;
         $date = $request->date;
+        $shift = $request->shift;
         $products = $request->products;
 
         DB::beginTransaction();
 
         $product_out = ProductOut::create([
             'date' => $date,
+            'shift' => $shift,
             'shop_id' => $shop_id,
             'total_price' => 0
         ]);
@@ -115,7 +127,13 @@ class ProductOutController extends Controller
             return redirect()->back();
         }
 
-        return redirect('/product-out')->with(['success' => 'Berhasil menambah data barang keluar']);
+        $dept = 'kitchen';
+        if (count($products) > 0) {
+            $first_prod = Product::find($products[0]['id']);
+            if ($first_prod) $dept = $first_prod->department;
+        }
+
+        return redirect('/product-out?dept='.$dept)->with(['success' => 'Berhasil menambah data barang keluar']);
     }
 
     /**
@@ -202,6 +220,12 @@ class ProductOutController extends Controller
         $product_out->delete();
         DB::commit();
 
-        return redirect('/product-out')->with(['success' => 'Berhasil menghapus transaksi data barang keluar']);
+        $dept = 'kitchen';
+        if (isset($product_out->detail[0])) {
+            $prod = Product::find($product_out->detail[0]->product_id);
+            if ($prod) $dept = $prod->department;
+        }
+
+        return redirect('/product-out?dept='.$dept)->with(['success' => 'Berhasil menghapus transaksi data barang keluar']);
     }
 }

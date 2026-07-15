@@ -129,10 +129,13 @@ export default function AuthLayout({
                             </Link>
                         </li>
                         <li>
+                            <div className="text-xs font-semibold text-gray-400 uppercase px-5 mt-4 mb-2">Kitchen</div>
+                        </li>
+                        <li>
                             <Link
-                                href="/products"
+                                href="/products?dept=kitchen"
                                 className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
-                                    url.startsWith("/products")
+                                    url.startsWith("/products?dept=kitchen")
                                         ? "text-white bg-primary-500 hover:bg-primary-600"
                                         : "text-gray-900 rounded hover:bg-primary-50"
                                 }`}
@@ -143,22 +146,9 @@ export default function AuthLayout({
                         </li>
                         <li>
                             <Link
-                                href="/distributors"
+                                href="/product-in?dept=kitchen"
                                 className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
-                                    url.startsWith("/distributors")
-                                        ? "text-white bg-primary-500 hover:bg-primary-600"
-                                        : "text-gray-900 rounded hover:bg-primary-50"
-                                }`}
-                            >
-                                <Groups className="w-5 h-5" />
-                                Data Distributor
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/product-in"
-                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
-                                    url.startsWith("/product-in")
+                                    url.startsWith("/product-in?dept=kitchen")
                                         ? "text-white bg-primary-500 hover:bg-primary-600"
                                         : "text-gray-900 rounded hover:bg-primary-50"
                                 }`}
@@ -169,9 +159,9 @@ export default function AuthLayout({
                         </li>
                         <li>
                             <Link
-                                href="/product-out"
+                                href="/product-out?dept=kitchen"
                                 className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
-                                    url.startsWith("/product-out")
+                                    url.startsWith("/product-out?dept=kitchen")
                                         ? "text-white bg-primary-500 hover:bg-primary-600"
                                         : "text-gray-900 rounded hover:bg-primary-50"
                                 }`}
@@ -179,6 +169,79 @@ export default function AuthLayout({
                                 <Unarchive className="w-5 h-5" />
                                 Barang Keluar
                             </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/daily-stock?dept=kitchen"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/daily-stock?dept=kitchen")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Dashboard className="w-5 h-5" />
+                                Laporan Stok Harian
+                            </Link>
+                        </li>
+
+                        <li>
+                            <div className="text-xs font-semibold text-gray-400 uppercase px-5 mt-4 mb-2">Bar & Service</div>
+                        </li>
+                        <li>
+                            <Link
+                                href="/products?dept=bar"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/products?dept=bar")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Box className="w-5 h-5" />
+                                Data Barang
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/product-in?dept=bar"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/product-in?dept=bar")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Archive className="w-5 h-5" />
+                                Barang Masuk
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/product-out?dept=bar"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/product-out?dept=bar")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Unarchive className="w-5 h-5" />
+                                Barang Keluar
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                href="/daily-stock?dept=bar"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/daily-stock?dept=bar")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Dashboard className="w-5 h-5" />
+                                Laporan Stok Harian
+                            </Link>
+                        </li>
+                        
+                        <li>
+                            <div className="text-xs font-semibold text-gray-400 uppercase px-5 mt-4 mb-2">Lainnya</div>
                         </li>
                         <li>
                             <Link

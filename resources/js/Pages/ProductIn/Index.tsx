@@ -20,38 +20,44 @@ interface ProductIns {
 }
 
 export default function Index({ auth, productIns, flash }: PageProps & {productIns: ProductIns}) {
-    const { query } = usePage<{query: {search?: string}}>().props;
+    const { query } = usePage<{ query: { search?: string, dept?: string } }>().props;
+    const dept = query.dept || 'kitchen';
 
-    const productInList = productIns.data.map(productIn => [
+    const productInList = productIns.data.map((productIn) => [
         productInIdFormat(productIn.id),
         dateFormat(productIn.date),
         productIn.distributor,
         priceFormat(productIn.total_price),
-        <Link 
-            href={`/product-in/detail/${productInIdFormat(productIn.id)}`}
+        <Link
+            href={`/product-in/detail/${productIn.id}`}
             className="text-primary-600 hover:underline"
         >
             Detail
-        </Link>
+        </Link>,
     ]);
 
     const tableHeader: TableHeader[] = [
-        {name: 'id', label: 'ID Transaksi', sortable: true},
-        {name: 'date', label: 'Tanggal', sortable: true},
-        {name: 'distributor', label: 'Distributor'},
-        {name: 'total_price', label: 'Total Harga'},
-        {label: 'Aksi'},
+        { name: "id", label: "ID", sortable: true },
+        { name: "date", label: "Tanggal", sortable: true },
+        { name: "distributor", label: "Distributor" },
+        { name: "total_price", label: "Total Harga", sortable: true },
+        { label: "Aksi" },
     ];
-    
+
     return (
         <AuthLayout user={auth.user}>
             <div>
-                <h2 className="font-semibold text-gray-800 text-2xl mb-6 pt-2">Data Barang Masuk</h2>
+                <h2 className="font-semibold text-gray-800 text-2xl mb-6 pt-2">
+                    Barang Masuk {dept === 'bar' ? '(Bar & Service)' : '(Kitchen)'}
+                </h2>
                 <div className="mb-2 flex sm:flex-row flex-col-reverse sm:justify-between gap-3">
-                    <SearchBox value={query.search} placeholder="Cari ID Transaksi..."/>
-                    <div className="flex justify-end gap-2">
-                        <Link href="/product-in/new" className="btn primary">
-                            <Add className="w-5 h-5"/>
+                    <SearchBox
+                        value={query.search}
+                        placeholder="Cari transaksi..."
+                    />
+                    <div className="flex gap-3 justify-end">
+                        <Link href={`/product-in/new?dept=${dept}`} className="btn primary">
+                            <Add className="w-5 h-5" />
                             Tambah
                         </Link>
                     </div>

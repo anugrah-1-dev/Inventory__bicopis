@@ -22,8 +22,9 @@ export default function New({ auth, products, flash }: PageProps &
     {
         products: {id: number, name: string, stock: number}[]
 }) {
-    const { data, setData, post, processing, errors } = useForm<{date: string, products: Product[]}>({
+    const { data, setData, post, processing, errors } = useForm<{date: string, shift: string, products: Product[]}>({
         date: '',
+        shift: '',
         products: []
     });
 
@@ -101,6 +102,21 @@ export default function New({ auth, products, flash }: PageProps &
                             required
                             autoFocus
                         />
+                    </div>
+                    <div className="w-full">
+                        <label htmlFor="shift" className="block text-sm font-medium text-gray-700 mb-1">Shift</label>
+                        <select
+                            id="shift"
+                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                            value={data.shift}
+                            onChange={(e) => setData("shift", e.target.value)}
+                            required
+                        >
+                            <option value="" disabled>Pilih Shift</option>
+                            <option value="1">Shift 1</option>
+                            <option value="2">Shift 2</option>
+                        </select>
+                        {errors.shift && <p className="mt-1 text-sm text-red-600">{errors.shift}</p>}
                     </div>
                     <div className="sm:col-span-2 md:col-span-3">
                         <p className="text-xl font-medium mb-2">Data Barang</p>

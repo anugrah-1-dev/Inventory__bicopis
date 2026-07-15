@@ -18,6 +18,7 @@ interface Product {
     category: string;
     unit: string;
     description?: string;
+    department: string;
 }
 
 export default function Detail({
@@ -33,6 +34,7 @@ export default function Detail({
         category: product.category,
         unit: product.unit,
         description: product.description,
+        department: product.department,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -120,14 +122,26 @@ export default function Detail({
                 
                 <div className="max-w-screen-sm">
                     {isEdit ? (
-                        <TextInput
-                            label="Satuan"
-                            value={data.unit}
-                            onChange={(e) => setData("unit", e.target.value)}
-                            id="unit"
-                            errorMsg={errors.unit}
-                            required
-                        />
+                        <>
+                            <label htmlFor="unit" className="block text-sm font-medium text-gray-700 mb-1">Satuan</label>
+                            <select
+                                id="unit"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+                                value={data.unit}
+                                onChange={(e) => setData("unit", e.target.value)}
+                                required
+                            >
+                                <option value="" disabled>Pilih Satuan</option>
+                                <option value="BTL">BTL (Botol)</option>
+                                <option value="KG">KG (Kilogram)</option>
+                                <option value="LITER">LITER</option>
+                                <option value="PCS">PCS</option>
+                                <option value="IKAT">IKAT</option>
+                                <option value="PACK">PACK</option>
+                                <option value="KARTON">KARTON</option>
+                            </select>
+                            {errors.unit && <p className="mt-1 text-sm text-red-600">{errors.unit}</p>}
+                        </>
                     ) : (
                         <>
                             <p className="block mb-1 text-sm font-medium text-gray-600">

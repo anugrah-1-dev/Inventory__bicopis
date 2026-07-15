@@ -11,7 +11,8 @@ import Barcode from "@/Components/Barcode";
 export default function New({
     auth,
     barcode,
-}: PageProps & { barcode: string }) {
+    dept
+}: PageProps & { barcode: string, dept: string }) {
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         price: "0",
@@ -20,6 +21,7 @@ export default function New({
         category: "",
         unit: "", 
         description: "",
+        department: dept,
     });
 
     const submit: FormEventHandler = (e) => {
@@ -71,14 +73,24 @@ export default function New({
                     />
                 </div>
                 <div className="max-w-screen-sm">
-                    <TextInput
-                        label="Satuan"
+                    <label htmlFor="unit" className="block text-sm font-medium text-gray-700 mb-1">Satuan</label>
+                    <select
                         id="unit"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
                         value={data.unit}
                         onChange={(e) => setData("unit", e.target.value)}
-                        errorMsg={errors.unit}
                         required
-                    />
+                    >
+                        <option value="" disabled>Pilih Satuan</option>
+                        <option value="BTL">BTL (Botol)</option>
+                        <option value="KG">KG (Kilogram)</option>
+                        <option value="LITER">LITER</option>
+                        <option value="PCS">PCS</option>
+                        <option value="IKAT">IKAT</option>
+                        <option value="PACK">PACK</option>
+                        <option value="KARTON">KARTON</option>
+                    </select>
+                    {errors.unit && <p className="mt-1 text-sm text-red-600">{errors.unit}</p>}
                 </div>
                 <div className="max-w-screen-sm">
                     <TextInput
@@ -99,7 +111,7 @@ export default function New({
                     />
                 </div>
                 <div className="max-w-screen-sm sm:col-span-3 flex gap-2">
-                    <Link href="/products" className="btn secondary">
+                    <Link href={`/products?dept=${dept}`} className="btn secondary">
                         <Back className="w-5 h-5" />
                         Kembali
                     </Link>

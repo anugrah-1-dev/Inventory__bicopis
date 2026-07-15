@@ -10,6 +10,7 @@ class ProductOut extends Model
     use HasFactory;
     protected $fillable = [
         'date',
+        'shift',
         'shop_id',
         'total_price'
     ];

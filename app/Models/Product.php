@@ -17,6 +17,7 @@ class Product extends Model
         'code',
         'unit',
         'category',
+        'department',
         'shop_id',
     ];
 

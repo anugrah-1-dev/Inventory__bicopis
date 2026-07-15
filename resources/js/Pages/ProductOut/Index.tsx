@@ -19,14 +19,15 @@ interface ProductOuts {
 }
 
 export default function Index({ auth, productOuts, flash }: PageProps & {productOuts: ProductOuts}) {
-    const { query } = usePage<{query: {search?: string}}>().props;
+    const { query } = usePage<{ query: { search?: string, dept?: string } }>().props;
+    const dept = query.dept || 'kitchen';
 
     const productInList = productOuts.data.map(productOut => [
         productOutIdFormat(productOut.id),
         dateFormat(productOut.date),
         priceFormat(productOut.total_price),
         <Link 
-            href={`/product-out/detail/${productOutIdFormat(productOut.id)}`}
+            href={`/product-out/detail/${productOut.id}`}
             className="text-primary-600 hover:underline"
         >
             Detail
@@ -43,11 +44,13 @@ export default function Index({ auth, productOuts, flash }: PageProps & {product
     return (
         <AuthLayout user={auth.user}>
             <div>
-                <h2 className="font-semibold text-gray-800 text-2xl mb-6 pt-2">Data Barang Keluar</h2>
+                <h2 className="font-semibold text-gray-800 text-2xl mb-6 pt-2">
+                    Barang Keluar {dept === 'bar' ? '(Bar & Service)' : '(Kitchen)'}
+                </h2>
                 <div className="mb-2 flex sm:flex-row flex-col-reverse sm:justify-between gap-3">
                     <SearchBox value={query.search} placeholder="Cari ID Transaksi..."/>
                     <div className="flex justify-end">
-                        <Link href="/product-out/new" className="btn primary">
+                        <Link href={`/product-out/new?dept=${dept}`} className="btn primary">
                             <Add className="w-5 h-5"/>
                             Tambah
                         </Link>
@@ -55,7 +58,7 @@ export default function Index({ auth, productOuts, flash }: PageProps & {product
                 </div>
                 <Alert flash={flash}/>
                 <Table header={tableHeader} body={productInList}>
-                    {query.search?.length ? 'Transakasi tidak ditemukan' : 'Transaksi masih kosong'}
+                    {query.search?.length ? 'Transaksi tidak ditemukan' : 'Transaksi masih kosong'}
                 </Table>
                 <div className="flex justify-center">
                 <Pagination page={productOuts.current_page} totalPage={productOuts.last_page}/>

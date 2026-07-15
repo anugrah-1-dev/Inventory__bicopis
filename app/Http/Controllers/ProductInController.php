@@ -22,11 +22,15 @@ class ProductInController extends Controller
         $search = request()->query('search');
         $column = request()->query('col');
         $sort = request()->query('sort');
+        $dept = request()->query('dept', 'kitchen');
 
         $shop_id = Auth::user()->shop_id;
         $productIns = ProductIn::query()
             ->join('distributors as d', 'd.id', '=', 'product_ins.distributor_id')
-            ->where('product_ins.shop_id', '=', $shop_id);
+            ->where('product_ins.shop_id', '=', $shop_id)
+            ->whereHas('detail.product', function ($query) use ($dept) {
+                $query->where('department', $dept);
+            });
 
         if(preg_match('/^BM\d{3,}$/', $search)) $productIns->where('product_ins.id', 'like', (int)substr($search, 2));
         if(in_array($sort, ['asc', 'desc'])) $productIns->orderBy('product_ins.'.$column, $sort);
@@ -37,7 +41,8 @@ class ProductInController extends Controller
             'query' => [
                 'search' => $search,
                 'col' => $column,
-                'sort' => $sort
+                'sort' => $sort,
+                'dept' => $dept
             ]
         ]);
     }
@@ -49,11 +54,13 @@ class ProductInController extends Controller
     {
         $product = request()->query('product');
         $distributor = request()->query('distributor');
+        $dept = request()->query('dept', 'kitchen');
 
         $shop_id = Auth::user()->shop_id;
         $products = Product::query()
             ->select('id', 'name', 'stock')
-            ->where('shop_id', $shop_id);
+            ->where('shop_id', $shop_id)
+            ->where('department', $dept);
         $distributors = Distributor::query()
             ->select('id', 'name')
             ->where('shop_id', $shop_id);
@@ -64,6 +71,7 @@ class ProductInController extends Controller
         return Inertia::render('ProductIn/New', [
             'products' => $products->take(5)->get(),
             'distributors' => $distributors->take(5)->get(),
+            'dept' => $dept
         ]);
     }
 
@@ -121,8 +129,14 @@ class ProductInController extends Controller
         $product_in->save();
 
         DB::commit();
+        
+        $dept = 'kitchen';
+        if (count($products) > 0) {
+            $first_prod = Product::find($products[0]['id']);
+            if ($first_prod) $dept = $first_prod->department;
+        }
 
-        return redirect('/product-in')->with(['success' => 'Berhasil menambah data barang masuk']);
+        return redirect('/product-in?dept='.$dept)->with(['success' => 'Berhasil menambah data barang masuk']);
     }
 
     /**
@@ -218,6 +232,12 @@ class ProductInController extends Controller
             return redirect()->back();
         }
 
-        return redirect('/product-in')->with(['success' => 'Berhasil menghapus transaksi data barang masuk']);
+        $dept = 'kitchen';
+        if (isset($product_in->detail[0])) {
+            $prod = Product::find($product_in->detail[0]->product_id);
+            if ($prod) $dept = $prod->department;
+        }
+
+        return redirect('/product-in?dept='.$dept)->with(['success' => 'Berhasil menghapus transaksi data barang masuk']);
     }
 }

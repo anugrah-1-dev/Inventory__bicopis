@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::get('product-out/new', [ProductOutController::class, 'create'])->name('product-out.create');
     Route::get('product-out/detail/{id}', [ProductOutController::class, 'show'])->name('product-out.detail');
 
+    Route::get('daily-stock', [\App\Http\Controllers\DailyStockController::class, 'index'])->name('daily-stock.get');
+
     Route::get('account', [AccountController::class, 'index'])->name('account.get');
     Route::put('update-profile', [AccountController::class, 'update_profile'])->name('account.update-profile');
     Route::put('update-password', [AccountController::class, 'update_password'])->name('account.update-password');

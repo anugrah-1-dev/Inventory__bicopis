@@ -16,10 +16,12 @@ class ProductController extends Controller
         $search = request()->query('search');
         $column = request()->query('col');
         $sort = request()->query('sort');
+        $dept = request()->query('dept', 'kitchen'); // default to kitchen
         $shop_id = Auth::user()->shop_id;
 
         $products = Product::query()
-            ->where('shop_id', '=', $shop_id);
+            ->where('shop_id', '=', $shop_id)
+            ->where('department', '=', $dept);
 
         if ($search) {
             $products->where(function($query) use ($search) {
@@ -38,8 +40,8 @@ class ProductController extends Controller
         }
 
         return Inertia::render('Product/Index', [
-            'products' => $products->select('id', 'name', 'price', 'stock', 'category', 'unit')->paginate(10),
-            'query' => compact('search', 'column', 'sort')
+            'products' => $products->select('id', 'name', 'price', 'stock', 'category', 'unit', 'department')->paginate(10),
+            'query' => compact('search', 'column', 'sort', 'dept')
         ]);
     }
 
@@ -47,8 +49,9 @@ class ProductController extends Controller
     public function create()
     {
         $barcode = request()->query('barcode');
+        $dept = request()->query('dept', 'kitchen');
 
-        return Inertia::render('Product/New', compact('barcode'));
+        return Inertia::render('Product/New', compact('barcode', 'dept'));
     }
 
 
@@ -63,7 +66,8 @@ class ProductController extends Controller
             'description' => ['string', 'nullable'],
             'stock' => ['required', 'integer', 'min:0'],
             'category' => ['required', 'string'],
-            'unit' => ['required', 'string']
+            'unit' => ['required', 'string'],
+            'department' => ['required', 'in:kitchen,bar']
         ], [
             'name.required' => 'Nama barang wajib diisi',
             'name.unique' => 'Nama barang sudah ada',
@@ -75,10 +79,12 @@ class ProductController extends Controller
             'stock.required' => 'Stok wajib diisi',
             'stock.integer' => 'Stok harus berupa angka',
             'stock.min' => 'Stok tidak boleh negatif',
-            'category.required' => 'Kategori wajib diisi', // Tambahkan pesan error kategori
+            'category.required' => 'Kategori wajib diisi', 
             'category.string' => 'Kategori harus berupa teks',
             'unit.required' => 'Satuan wajib diisi', 
-            'unit.string' => 'Satuan harus berupa teks'
+            'unit.string' => 'Satuan harus berupa teks',
+            'department.required' => 'Departemen wajib diisi',
+            'department.in' => 'Departemen tidak valid'
         ]);
 
         Product::create([
@@ -89,10 +95,11 @@ class ProductController extends Controller
             'description' => $request->description,
             'stock' => $request->stock,
             'category' => $request->category,
-            'unit' => $request->unit
+            'unit' => $request->unit,
+            'department' => $request->department
         ]);
 
-        return redirect('/products')->with('success', 'Berhasil menambah data barang');
+        return redirect('/products?dept='.$request->department)->with('success', 'Berhasil menambah data barang');
     }
 
     public function show(string $id)
@@ -157,7 +164,8 @@ class ProductController extends Controller
             'code' => ['string', 'nullable', 'unique:products,code,'.$product_id.',id,shop_id,'.$shop_id],
             'description' => ['string', 'nullable'],
             'category' => ['required', 'string'],
-            'unit' => ['required', 'string']
+            'unit' => ['required', 'string'],
+            'department' => ['required', 'in:kitchen,bar']
         ], [
             'name.required' => 'Nama barang wajib diisi',
             'name.string' => 'Nama barang wajib berupa teks',
@@ -167,7 +175,9 @@ class ProductController extends Controller
             'category.required' => 'Kategori wajib diisi',
             'category.string' => 'Kategori harus berupa teks',
             'unit.required' => 'Satuab wajib diisi',
-            'unit.string' => 'Satuab harus berupa teks'
+            'unit.string' => 'Satuab harus berupa teks',
+            'department.required' => 'Departemen wajib diisi',
+            'department.in' => 'Departemen tidak valid'
         ]);
 
         Product::where('id', $product_id)
@@ -178,10 +188,11 @@ class ProductController extends Controller
                 'price' => $request->price,
                 'description' => $request->description,
                 'category' => $request->category,
-                'unit' => $request->unit
+                'unit' => $request->unit,
+                'department' => $request->department
             ]);
 
-        return redirect('/products')->with('success', 'Berhasil mengubah data barang');
+        return redirect('/products?dept='.$request->department)->with('success', 'Berhasil mengubah data barang');
     }
 
     public function destroy(string $id)
