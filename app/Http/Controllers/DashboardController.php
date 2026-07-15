@@ -24,13 +24,13 @@ class DashboardController extends Controller
 
         $countitem = Product::where('shop_id', $shop_id)->where('department', $dept)->sum('stock');
         
-        $countin = ProductInDetail::whereHas('productIn', function ($q) use ($shop_id) {
+        $countin = ProductInDetail::whereHas('product_in', function ($q) use ($shop_id) {
             $q->where('shop_id', $shop_id);
         })->whereHas('product', function ($q) use ($dept) {
             $q->where('department', $dept);
         })->sum('quantity');
 
-        $countout = ProductOutDetail::whereHas('productOut', function ($q) use ($shop_id) {
+        $countout = ProductOutDetail::whereHas('product_out', function ($q) use ($shop_id) {
             $q->where('shop_id', $shop_id);
         })->whereHas('product', function ($q) use ($dept) {
             $q->where('department', $dept);
