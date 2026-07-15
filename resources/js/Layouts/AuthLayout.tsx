@@ -48,8 +48,8 @@ export default function AuthLayout({
                             className="flex items-center justify-between mr-4"
                         >
                             <img
-                                src="/logo-mitra.png"
-                                alt="Brilliant Logo"
+                                src="/logo_bicopi.jpeg"
+                                alt="Bicopis Logo"
                                 className="h-10 w-auto"
                             />
                         </Link>

@@ -26,7 +26,7 @@ export default function Login({ flash }: PageProps) {
             <main className="flex flex-1 justify-center items-center p-6">
                 <div className="flex flex-wrap bg-white border border-gray-200 rounded-lg shadow-md w-full max-w-4xl overflow-hidden">
                     <div className="hidden md:flex items-center justify-center bg-white-100 p-8 w-1/2">
-                        <img src="/logo-bieplus.webp" alt="Login Illustration" className="max-w-xs" />
+                        <img src="/logo_bicopi.jpeg" alt="Bicopis Logo" className="max-w-xs" />
                     </div>
                     <div className="w-full md:w-1/2 p-6 flex flex-col justify-center">
                         <h2 className="text-xl font-medium text-center text-gray-900 mb-1">Selamat Datang</h2>

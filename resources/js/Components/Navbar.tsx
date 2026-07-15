@@ -9,13 +9,13 @@ export default function Navbar() {
                     className="p-1 flex items-center justify-between mr-4"
                 >
                     <img
-                        src="/logo-mitra.png"
-                        alt="Brilliant Logo"
+                        src="/logo_bicopi.jpeg"
+                        alt="Bicopis Logo"
                         className="h-10 w-auto"
                     />
                 </Link> */}
                  <Link href="/" className="flex items-center justify-between mr-4">
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap">Brilliant.</span>
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap">Bicopis.</span>
                     </Link>
             </div>
         </nav>
