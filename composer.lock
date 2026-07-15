@@ -2077,12 +2077,12 @@
             "version": "3.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/briannesbitt/Carbon.git",
+                "url": "https://github.com/CarbonPHP/carbon.git",
                 "reference": "7219739c4e01d4680c980545821733b6ed8ee880"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/7219739c4e01d4680c980545821733b6ed8ee880",
+                "url": "https://api.github.com/repos/CarbonPHP/carbon/zipball/7219739c4e01d4680c980545821733b6ed8ee880",
                 "reference": "7219739c4e01d4680c980545821733b6ed8ee880",
                 "shasum": ""
             },
@@ -8496,5 +8496,5 @@
         "php": "^8.2"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
