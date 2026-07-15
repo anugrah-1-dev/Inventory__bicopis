@@ -18,7 +18,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Shop::factory(1)->create();
-        User::factory(1)->create();
+        User::factory()->create([
+            'name' => 'Admin Bicopis',
+            'email' => 'admin@bicopis.com',
+            'password' => bcrypt('password'),
+        ]);
         ProductCategory::factory(1)->create();
         ProductUnit::factory(1)->create();
         Product::factory(51)->create();
