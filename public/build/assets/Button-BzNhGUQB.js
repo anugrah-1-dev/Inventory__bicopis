@@ -1,1 +1,0 @@
-import{j as e}from"./app-C2tYEVDb.js";function c({className:r="",children:n,colorScheme:a="primary",icon:o,...s}){const t={primary:" primary ",secondary:" secondary ",warning:" warning ",danger:" danger "};return e.jsxs("button",{className:"btn"+t[a]+r,...s,children:[o,n]})}export{c as B};
