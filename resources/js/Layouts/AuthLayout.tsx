@@ -259,6 +259,19 @@ export default function AuthLayout({
                         </li>
                         <li>
                             <Link
+                                href="/distributors"
+                                className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
+                                    url.startsWith("/distributors")
+                                        ? "text-white bg-primary-500 hover:bg-primary-600"
+                                        : "text-gray-900 rounded hover:bg-primary-50"
+                                }`}
+                            >
+                                <Groups className="w-5 h-5" />
+                                Distributor
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
                                 href="/account"
                                 className={`flex items-center gap-2 py-2 px-5 rounded-md text-base font-medium ${
                                     url.startsWith("/account")
