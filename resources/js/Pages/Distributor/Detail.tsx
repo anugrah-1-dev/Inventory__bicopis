@@ -96,7 +96,7 @@ export default function Detail({ auth, distributor }: PageProps & {distributor: 
                         </> :
                         <>
                             <Button colorScheme="warning" type="button" onClick={() => setIsEdit(true)} icon={<Pencil className="w-5 h-5"/>}>Edit</Button>
-                            <Link href={`/distributors/${distributor.id.toString().padStart(3, '0')}`} as="button" method="delete" type="button" className="btn danger"><Trash className="h-5 w-5"/>Hapus</Link>
+                            <Link href={`/distributors/D${distributor.id.toString().padStart(3, '0')}`} as="button" method="delete" type="button" className="btn danger"><Trash className="h-5 w-5"/>Hapus</Link>
                         </>
                     }
                 </div>
