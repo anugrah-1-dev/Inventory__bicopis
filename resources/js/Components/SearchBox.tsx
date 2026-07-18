@@ -21,7 +21,7 @@ export default function SearchBox({value, placeholder}: InputHTMLAttributes<HTML
 
     return (
         <div className="relative w-full">
-            <input onChange={searchHandler} value={search} type="text" className="w-full p-2.5 rounded-md ps-10" placeholder={placeholder} />
+            <input id="search" name="search" onChange={searchHandler} value={search} type="text" className="w-full p-2.5 rounded-md ps-10" placeholder={placeholder} />
             <div className="absolute inset-y-0 start-2.5 flex items-center text-gray-500">
                 <Search className="w-5 h-5"/>
             </div>

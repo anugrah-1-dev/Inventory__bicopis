@@ -56,6 +56,8 @@ export default function Index({ auth, stocks }: PageProps & { stocks: Stock[] })
                     <div className="w-full max-w-xs">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Pilih Tanggal</label>
                         <input
+                            id="date"
+                            name="date"
                             type="date"
                             value={date}
                             onChange={handleDateChange}

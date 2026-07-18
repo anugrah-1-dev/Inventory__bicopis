@@ -15,7 +15,7 @@ export default function PasswordInput({label, icon, errorMsg, ...props}: InputHT
                     { icon }
                 </div>
             }
-            <input type={showPass ? 'text' : 'password'} className={`w-full p-2.5 rounded-md ${icon ? 'ps-10': ''}`} {...props} />
+            <input name={props.name || props.id} type={showPass ? 'text' : 'password'} className={`w-full p-2.5 rounded-md ${icon ? 'ps-10': ''}`} {...props} />
             <button className="absolute inset-y-0 end-0 flex items-center pe-3.5 text-gray-500" type="button" onClick={() => {setShowPass(!showPass)}}>
                 {showPass ? 
                     <EyeOff className="w-5 h-5"/> :

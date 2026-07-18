@@ -7,7 +7,7 @@ export default function TextInput({label, icon, type, errorMsg, ...props}: Input
         <>
         <label htmlFor={props.id} className={`block mb-1 text-sm font-medium text-gray-900 ${props.required ? "after:content-['*'] after:text-red-500" : "" }`}>{label}</label>
         <div className="relative">
-            <input type={type ? type : 'text'} className={`w-full p-2.5 rounded-md ${icon ? 'ps-10': ''}`} {...props}/>
+            <input name={props.name || props.id} type={type ? type : 'text'} className={`w-full p-2.5 rounded-md ${icon ? 'ps-10': ''}`} {...props}/>
             {
                 icon && 
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-gray-500">

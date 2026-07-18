@@ -57,6 +57,7 @@ export default function Login({ flash }: PageProps) {
                             <div className="flex items-center">
                                 <input
                                     id="remember"
+                                    name="remember"
                                     type="checkbox"
                                     className="text-primary-600 w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring focus:ring-primary-300"
                                     checked={data.remember}
