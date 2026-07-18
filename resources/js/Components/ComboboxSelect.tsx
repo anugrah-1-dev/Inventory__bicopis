@@ -25,7 +25,17 @@ export default function ComboboxSelect({id, label, options, errorMsg, value, cus
             clearTimeout(debounce.current);
         }
         debounce.current = window.setTimeout(() => {
-            router.get('', data, {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Add new data to URL search params
+            Object.keys(data).forEach(key => {
+                if (data[key]) {
+                    urlParams.set(key, data[key]);
+                } else {
+                    urlParams.delete(key);
+                }
+            });
+            
+            router.get(window.location.pathname, Object.fromEntries(urlParams), {
                 preserveState: true, preserveScroll: true
             });
         }, 500);

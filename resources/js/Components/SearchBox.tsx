@@ -8,12 +8,20 @@ export default function SearchBox({value, placeholder}: InputHTMLAttributes<HTML
 
     const searchHandler  = (e: ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
-        const search = e.target.value.trim();
+        const searchVal = e.target.value.trim();
         if (debounce.current) {
             clearTimeout(debounce.current);
         }
         debounce.current = window.setTimeout(() => {
-            router.get('', { search }, {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (searchVal) {
+                urlParams.set('search', searchVal);
+            } else {
+                urlParams.delete('search');
+            }
+            urlParams.delete('page'); // Reset to page 1 on new search
+            
+            router.get(window.location.pathname, Object.fromEntries(urlParams), {
                 preserveState: true, preserveScroll: true
             });
         }, 500);

@@ -28,7 +28,19 @@ export default function Table({header, body, children, ...props}: PropsWithChild
             clearTimeout(debounce.current);
         }
         debounce.current = window.setTimeout(() => {
-            router.get('', values, {preserveState: true, preserveScroll: true});
+            const urlParams = new URLSearchParams(window.location.search);
+            if (data.col) {
+                urlParams.set('col', data.col);
+            } else {
+                urlParams.delete('col');
+            }
+            if (data.sort) {
+                urlParams.set('sort', data.sort);
+            } else {
+                urlParams.delete('sort');
+            }
+            
+            router.get(window.location.pathname, Object.fromEntries(urlParams), {preserveState: true, preserveScroll: true});
         }, 100);
     }
 

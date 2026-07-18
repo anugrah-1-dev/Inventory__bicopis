@@ -42,7 +42,9 @@ export default function Index({ auth, stocks }: PageProps & { stocks: Stock[] })
     ];
 
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        router.get('/daily-stock', { dept, date: e.target.value }, { preserveState: true });
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('date', e.target.value);
+        router.get('/daily-stock', Object.fromEntries(urlParams), { preserveState: true });
     };
 
     return (
