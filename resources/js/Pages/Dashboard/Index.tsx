@@ -52,23 +52,10 @@ export default function Index({ auth, flash, ziggy, countitem, currentyear, coun
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
-                    <div className="lg:col-span-2 bg-white shadow-lg rounded-xl p-6">
+                <div className="grid grid-cols-1 gap-6 mt-8">
+                    <div className="bg-white shadow-lg rounded-xl p-6">
                         <h3 className="text-lg font-semibold text-gray-700 mb-4">Ringkasan Barang Tahun {currentyear}</h3>
                         <AreaChart auth={auth} flash={flash} ziggy={ziggy} earnings={earnings} expenses={expenses} />
-
-                    </div>
-
-                    <div className="bg-white shadow-lg rounded-xl p-6">
-                        <h3 className="text-lg font-semibold text-gray-700 mb-4">Revenue Sources</h3>
-                        <div className="flex justify-center items-center h-40">
-                            <p className="text-gray-400">Chart Placeholder</p>
-                        </div>
-                        <div className="mt-4 text-center text-sm">
-                            <span className="mr-2 text-blue-500">● Direct</span>
-                            <span className="mr-2 text-green-500">● Social</span>
-                            <span className="text-yellow-500">● Referral</span>
-                        </div>
                     </div>
                 </div>
             </div>
