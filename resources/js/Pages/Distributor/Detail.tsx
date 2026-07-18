@@ -95,10 +95,10 @@ export default function Detail({ auth, distributor }: PageProps & {distributor: 
                             <Button type="submit" icon={<Save className="w-5 h-5"/>} disabled={processing}>Simpan</Button>
                         </> :
                         <>
-                            <Link href="/distributors" className="btn bg-gray-600 text-white hover:bg-gray-700 flex items-center px-4 py-2 rounded-md">
+                            <button onClick={() => window.history.back()} type="button" className="btn bg-gray-600 text-white hover:bg-gray-700 flex items-center px-4 py-2 rounded-md">
                                 <Back className="w-5 h-5" />
                                 Kembali
-                            </Link>
+                            </button>
                             <Button colorScheme="warning" type="button" onClick={() => setIsEdit(true)} icon={<Pencil className="w-5 h-5"/>}>Edit</Button>
                             <Link href={`/distributors/D${distributor.id.toString().padStart(3, '0')}`} as="button" method="delete" type="button" className="btn danger"><Trash className="h-5 w-5"/>Hapus</Link>
                         </>
