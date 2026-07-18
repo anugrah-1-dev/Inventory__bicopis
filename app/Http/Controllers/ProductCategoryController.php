@@ -36,7 +36,7 @@ class ProductCategoryController extends Controller
             $category->orderBy($column, $sort);
         }
 
-        return Inertia::render('ProductCategory/Index', [
+        return Inertia::render('Category/Index', [
             'categorys' => $category->paginate(10),
             'query' => [
                 'search' => $search,
@@ -78,7 +78,7 @@ class ProductCategoryController extends Controller
             ->where('shop_id', '=', $shop_id)
             ->first();
     
-        return Inertia::render('ProductCategory/Detail', [
+        return Inertia::render('Category/Detail', [
             'productCategory' => $productCategory,
         ]);
     }    
@@ -88,7 +88,7 @@ class ProductCategoryController extends Controller
     {
         $shop_id = Auth::user()->shop_id;
 
-        return Inertia::render('ProductCategory/New', [
+        return Inertia::render('Category/New', [
             'shop_id' => $shop_id
         ]);
     }
@@ -104,7 +104,7 @@ class ProductCategoryController extends Controller
         $shop_id = Auth::user()->shop_id;
 
         $request->validate([
-            'name' => ['required', 'string', 'unique:product_categorys,name,NULL,id,shop_id,'.$shop_id.'id,id,'.$id],
+            'name' => ['required', 'string', 'unique:product_categorys,name,'.$product_category_id.',id,shop_id,'.$shop_id],
             'shop_id' => ['required', 'integer']
         ],[
             'name.required' => 'Nama satuan wajib diisi',
@@ -114,7 +114,7 @@ class ProductCategoryController extends Controller
             'shop_id.integer' => 'Shop ID harus berupa angka'
         ]);
 
-        ProductUnit::query()
+        ProductCategory::query()
             ->where('id', '=', $product_category_id)
             ->where('shop_id', '=', $shop_id)
             ->update([
@@ -122,7 +122,7 @@ class ProductCategoryController extends Controller
                 'shop_id' => $request->shop_id
             ]);
 
-        return redirect()->route('product-category.get')->with('success', 'Berhasil mengubah data satuan barang');
+        return redirect()->route('product-category.get')->with('success', 'Berhasil mengubah data kategori barang');
     }
 
 

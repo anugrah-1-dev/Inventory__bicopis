@@ -27,7 +27,7 @@ class ProductUnitController extends Controller
             $units->where('name', 'like', '%'.$search.'%');
         }
 
-        if (preg_match('/^U\d{3,}$/', $search)) {
+        if (preg_match('/^C\d{3,}$/', $search)) {
             $units->where('id', 'like', (int)substr($search, 1), 'or');
         }
 
@@ -102,7 +102,7 @@ class ProductUnitController extends Controller
         $shop_id = Auth::user()->shop_id;
 
         $request->validate([
-            'name' => ['required', 'string', 'unique:product_units,name,NULL,id,shop_id,'.$shop_id.'id,id,'.$id],
+            'name' => ['required', 'string', 'unique:product_units,name,'.$product_unit_id.',id,shop_id,'.$shop_id],
             'shop_id' => ['required', 'integer']
         ],[
             'name.required' => 'Nama satuan wajib diisi',

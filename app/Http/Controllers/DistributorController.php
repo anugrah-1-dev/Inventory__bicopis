@@ -115,7 +115,7 @@ class DistributorController extends Controller
         $shop_id = Auth::user()->shop_id;
 
         $request->validate([
-            'name' => ['required', 'string', 'unique:distributors,name,NULL,id,shop_id,'.$shop_id.'id,id,'.$id],
+            'name' => ['required', 'string', 'unique:distributors,name,'.$distributor_id.',id,shop_id,'.$shop_id],
             'phone' => ['required', 'string'],
             'address' => ['required', 'string']
         ],[
