@@ -31,12 +31,29 @@ export default function Detail({ auth, productIn, flash }: PageProps & {productI
     const handlePrint = () => {
         if (printRef.current) {
             const printContents = printRef.current.innerHTML;
-            const originalContents = document.body.innerHTML;
-
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-            window.location.reload();
+            const printWindow = window.open('', '', 'height=600,width=800');
+            
+            if (printWindow) {
+                printWindow.document.write('<html><head><title>Cetak Barcode</title>');
+                
+                // Copy all styles from the current document
+                const styles = document.querySelectorAll('style, link[rel="stylesheet"]');
+                styles.forEach((style) => {
+                    printWindow.document.write(style.outerHTML);
+                });
+                
+                printWindow.document.write('</head><body class="p-8">');
+                printWindow.document.write(printContents);
+                printWindow.document.write('</body></html>');
+                printWindow.document.close();
+                printWindow.focus();
+                
+                // Wait for styles to load before printing
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            }
         }
     };
 
