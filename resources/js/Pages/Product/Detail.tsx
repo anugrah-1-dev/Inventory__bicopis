@@ -239,6 +239,13 @@ export default function Detail({
                         </>
                     ) : (
                         <>
+                            <Link
+                                href={`/products?dept=${product.department}`}
+                                className="btn bg-gray-600 text-white hover:bg-gray-700 flex items-center px-4 py-2 rounded-md"
+                            >
+                                <Back className="w-5 h-5" />
+                                Kembali
+                            </Link>
                             <Button
                                 colorScheme="warning"
                                 type="button"

@@ -78,11 +78,15 @@ export default function Detail({ auth, productIn, flash }: PageProps & {productI
             />
 
             {/* Tombol Aksi */}
-            <div className="flex flex-row mt-6">
+            <div className="flex flex-row mt-6 gap-4">
+                <Link href="/product-in" className="btn bg-gray-600 text-white hover:bg-gray-700 flex items-center px-4 py-2 rounded-md">
+                    <Back className="w-5 h-5" />
+                    Kembali
+                </Link>
                 <Link href={`/product-in/${productInIdFormat(productIn.id)}`} as="button" method="delete" type="button" className="btn danger">
                     <Trash className="h-5 w-5"/> Hapus
                 </Link>
-                <div className="ml-4">
+                <div>
                     <Button type="button" icon={<Print className="w-5 h-5" />} onClick={() => setIsModalOpen(true)}>
                         Cetak Barcode
                     </Button>
