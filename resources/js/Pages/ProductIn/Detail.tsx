@@ -1,6 +1,6 @@
 import Alert from "@/Components/Alert";
 import Button from "@/Components/Button";
-import { Print, Trash } from "@/Components/Icons";
+import { Back, Print, Trash } from "@/Components/Icons";
 import Table from "@/Components/Table";
 import AuthLayout from "@/Layouts/AuthLayout";
 import { PageProps } from "@/types";
