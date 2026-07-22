@@ -1,9 +1,8 @@
 import Alert from "@/Components/Alert";
 import Button from "@/Components/Button";
-import { Add, ScanBarcode } from "@/Components/Icons";
+import { Add } from "@/Components/Icons";
 import Modal from "@/Components/Modal";
 import Pagination from "@/Components/Pagination";
-import Scanner from "@/Components/Scanner";
 import SearchBox from "@/Components/SearchBox";
 import Table from "@/Components/Table";
 import AuthLayout from "@/Layouts/AuthLayout";
@@ -71,13 +70,7 @@ export default function Index({
                         placeholder="Cari barang..."
                     />
                     <div className="flex gap-3 justify-end">
-                        <Button
-                            colorScheme="secondary"
-                            icon={<ScanBarcode className="w-5 h-5" />}
-                            onClick={() => setIsOpen(true)}
-                        >
-                            Scan
-                        </Button>
+
                         <Link href={`/products/new?dept=${dept}`} className="btn primary">
                             <Add className="w-5 h-5" />
                             Tambah
@@ -96,19 +89,7 @@ export default function Index({
                         page={products.current_page}
                         totalPage={products.last_page}
                     />
-                    <Modal show={isOpen} onClose={() => setIsOpen(false)}>
-                        <div className="flex flex-col relative">
-                            <div className="absolute z-50 text-center left-1/2 -translate-x-1/2 w-full mt-4">
-                                <p className="text-white font-bold text-lg">
-                                    Arahkan kamera ke barcode
-                                </p>
-                                <p className="text-gray-100 font-medium text-md">
-                                    Tempatkan barcode ke dalam kotak
-                                </p>
-                            </div>
-                            {isOpen && <Scanner updateData={setIsOpen} />}
-                        </div>
-                    </Modal>
+
                 </div>
             </div>
         </AuthLayout>

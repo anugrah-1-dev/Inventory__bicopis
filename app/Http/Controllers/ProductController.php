@@ -48,10 +48,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        $barcode = request()->query('barcode');
         $dept = request()->query('dept', 'kitchen');
 
-        return Inertia::render('Product/New', compact('barcode', 'dept'));
+        return Inertia::render('Product/New', compact('dept'));
     }
 
 
@@ -62,7 +61,6 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'unique:products,name,NULL,id,shop_id,'.$shop_id],
             'price' => ['required', 'numeric', 'min:0'],
-            'code' => ['string', 'nullable', 'unique:products,code,NULL,id,shop_id,'.$shop_id],
             'description' => ['string', 'nullable'],
             'stock' => ['required', 'numeric', 'min:0'],
             'category' => ['required', 'string'],
@@ -75,7 +73,6 @@ class ProductController extends Controller
             'price.required' => 'Harga wajib diisi',
             'price.numeric' => 'Harga wajib berupa angka',
             'price.min' => 'Harga minimal 0',
-            'code.unique' => 'Barcode barang sudah ada',
             'stock.required' => 'Stok wajib diisi',
             'stock.numeric' => 'Stok harus berupa angka',
             'stock.min' => 'Stok tidak boleh negatif',
@@ -89,7 +86,6 @@ class ProductController extends Controller
 
         Product::create([
             'name' => $request->name,
-            'code' => $request->code,
             'shop_id' => $shop_id,
             'price' => $request->price,
             'description' => $request->description,
@@ -133,21 +129,6 @@ class ProductController extends Controller
         ]);
     }
 
-    public function barcode(Request $request)
-    {
-        $validated = $request->validate(['code' => ['required', 'string']]);
-
-        $product = Product::where('code', $validated['code'])
-            ->where('shop_id', Auth::user()->shop_id)
-            ->first('id');
-
-        if ($product) {
-            return redirect('/products/detail/'.sprintf("B%03d", $product->id));
-        }
-
-        return redirect('/products/new?barcode='.$validated['code'])
-            ->with('error', 'Barang tidak ditemukan, silahkan tambah barang');
-    }
 
     public function update(Request $request, string $id)
     {
@@ -161,7 +142,6 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'unique:products,name,'.$product_id.',id,shop_id,'.$shop_id],
             'price' => ['required', 'numeric', 'min:0'],
-            'code' => ['string', 'nullable', 'unique:products,code,'.$product_id.',id,shop_id,'.$shop_id],
             'description' => ['string', 'nullable'],
             'category' => ['required', 'string'],
             'unit' => ['required', 'string'],
@@ -171,7 +151,6 @@ class ProductController extends Controller
             'name.string' => 'Nama barang wajib berupa teks',
             'price.required' => 'Harga wajib diisi',
             'price.numeric' => 'Harga wajib berupa angka',
-            'code.unique' => 'Barcode barang sudah ada',
             'category.required' => 'Kategori wajib diisi',
             'category.string' => 'Kategori harus berupa teks',
             'unit.required' => 'Satuab wajib diisi',
@@ -184,7 +163,6 @@ class ProductController extends Controller
             ->where('shop_id', $shop_id)
             ->update([
                 'name' => $request->name,
-                'code' => $request->code,
                 'price' => $request->price,
                 'description' => $request->description,
                 'category' => $request->category,

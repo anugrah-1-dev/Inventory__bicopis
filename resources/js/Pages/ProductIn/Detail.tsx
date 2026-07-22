@@ -6,9 +6,6 @@ import AuthLayout from "@/Layouts/AuthLayout";
 import { PageProps } from "@/types";
 import { dateFormat, priceFormat, productInIdFormat } from "@/utils/formats";
 import { Link } from "@inertiajs/react";
-import Barcode from "@/Components/Barcode"; 
-import ModalCode from "@/Components/ModalCode"; // Import Modal
-import { useState, useRef } from "react";
 
 interface ProductIn {
     id: number,
@@ -19,43 +16,11 @@ interface ProductIn {
         name: string,
         quantity: number, // Jumlah produk
         price: number,
-        total_price: number,
-        code: string
+        total_price: number
     }[]
 }
 
 export default function Detail({ auth, productIn, flash }: PageProps & {productIn: ProductIn}) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const printRef = useRef<HTMLDivElement>(null);
-
-    const handlePrint = () => {
-        if (printRef.current) {
-            const printContents = printRef.current.innerHTML;
-            const printWindow = window.open('', '', 'height=600,width=800');
-            
-            if (printWindow) {
-                printWindow.document.write('<html><head><title>Cetak Barcode</title>');
-                
-                // Copy all styles from the current document
-                const styles = document.querySelectorAll('style, link[rel="stylesheet"]');
-                styles.forEach((style) => {
-                    printWindow.document.write(style.outerHTML);
-                });
-                
-                printWindow.document.write('</head><body class="p-8">');
-                printWindow.document.write(printContents);
-                printWindow.document.write('</body></html>');
-                printWindow.document.close();
-                printWindow.focus();
-                
-                // Wait for styles to load before printing
-                setTimeout(() => {
-                    printWindow.print();
-                    printWindow.close();
-                }, 500);
-            }
-        }
-    };
 
     const dataTable = productIn.products.map(product => [
         product.name, 
@@ -103,40 +68,7 @@ export default function Detail({ auth, productIn, flash }: PageProps & {productI
                 <Link href={`/product-in/${productInIdFormat(productIn.id)}`} as="button" method="delete" type="button" className="btn danger">
                     <Trash className="h-5 w-5"/> Hapus
                 </Link>
-                <div>
-                    <Button type="button" icon={<Print className="w-5 h-5" />} onClick={() => setIsModalOpen(true)}>
-                        Cetak Barcode
-                    </Button>
-                </div>
             </div>
-
-            {/* MODAL BARCODE */}
-            <ModalCode isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <div ref={printRef}>
-                    <h3 className="font-semibold text-lg">Barcode Produk</h3>
-                    <div className="grid grid-cols-3 gap-4 mt-4">
-                        {productIn.products.map((product, index) => 
-                            Array(product.quantity).fill(0).map((_, i) => (
-                                <div key={`${index}-${i}`} className="border p-4 rounded-md text-center">
-                                    <p className="text-sm font-semibold mb-2">{product.name}</p>
-                                    <div className="flex">
-                                        <Barcode value={product.code}/>
-                                        <div className="w-30">
-                                            <p>{productInIdFormat(productIn.id)}</p>
-                                            <p>{dateFormat(productIn.date)}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))
-                        )}
-                    </div>
-                </div>
-                <div className="mt-4 flex justify-end">
-                    <Button type="button" icon={<Print className="w-5 h-5" />} onClick={handlePrint}>
-                        Cetak
-                    </Button>
-                </div>
-            </ModalCode>
         </AuthLayout>
     );
 }

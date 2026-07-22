@@ -7,8 +7,6 @@ import Button from "@/Components/Button";
 import { priceFormat, productIdFormat } from "@/utils/formats";
 import TextInput from "@/Components/TextInput";
 import Textarea from "@/Components/Textarea";
-import Barcode from "@/Components/Barcode";
-
 interface Product {
     id: number;
     name: string;
@@ -29,7 +27,6 @@ export default function Detail({
     const { data, setData, put, processing, errors } = useForm({
         name: product.name,
         price: product.price,
-        code: product.code,
         stock: product.stock,
         category: product.category,
         unit: product.unit,
@@ -178,25 +175,6 @@ export default function Detail({
                     )}
                 </div>
 
-                <div className="max-w-screen-sm">
-                    {isEdit ? (
-                        <TextInput
-                            label="Barcode"
-                            value={data.code}
-                            onChange={(e) => setData("code", e.target.value)}
-                            id="code"
-                            errorMsg={errors.code}
-                            required
-                        />
-                    ) : (
-                        <>
-                            <p className="block mb-1 text-sm font-medium text-gray-600">
-                                Barcode
-                            </p>
-                            <Barcode value={product.code} />
-                        </>
-                    )}
-                </div>
 
                 <div className="max-w-screen-sm sm:col-span-2">
                     {isEdit ? (

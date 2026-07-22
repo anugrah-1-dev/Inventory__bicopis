@@ -31,7 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::get('products/new', [ProductController::class, 'create'])->name('products.create');
     Route::get('products/detail/{id}', [ProductController::class, 'show'])->name('products.detail');
 
-    Route::post('products/barcode', [ProductController::class, 'barcode'])->name('products.barcode');
 
     Route::get('product-units', [ProductUnitController::class, 'index'])->name('product-units.get');
     Route::post('product-units', [ProductUnitController::class, 'store'])->name('product-units.add');

@@ -6,18 +6,15 @@ import AuthLayout from "@/Layouts/AuthLayout";
 import TextInput from "@/Components/TextInput";
 import Button from "@/Components/Button";
 import Textarea from "@/Components/Textarea";
-import Barcode from "@/Components/Barcode";
 
 export default function New({
     auth,
-    barcode,
     dept
-}: PageProps & { barcode: string, dept: string }) {
+}: PageProps & { dept: string }) {
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         price: "0",
         stock: "0",
-        code: barcode,
         category: "",
         unit: "", 
         description: "",
@@ -92,15 +89,7 @@ export default function New({
                     </select>
                     {errors.unit && <p className="mt-1 text-sm text-red-600">{errors.unit}</p>}
                 </div>
-                <div className="max-w-screen-sm">
-                    <TextInput
-                        label="Barcode"
-                        value={data.code}
-                        type="text"
-                        onChange={(e) => setData("code", e.target.value)}
-                        errorMsg={errors.code}
-                    />
-                </div>
+
                 <div className="max-w-screen-sm sm:col-span-2">
                     <Textarea
                         label="Deskripsi"
