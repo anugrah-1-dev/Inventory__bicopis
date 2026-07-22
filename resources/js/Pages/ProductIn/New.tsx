@@ -149,7 +149,8 @@ export default function New({ auth, products, distributors }: PageProps &
                                 label="Jumlah"
                                 value={product.quantity || ''}
                                 type="number"
-                                min={1}
+                                min={0.001}
+                                step="any"
                                 id="quantity"
                                 onChange={(e) => setProduct({...product, quantity: +e.target.value})}
                                 required

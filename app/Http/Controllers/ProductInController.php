@@ -85,7 +85,7 @@ class ProductInController extends Controller
             'date' => ['required', 'date'],
             'distributor.id' => ['numeric', 'min:1'],
             'products.*.id' => ['numeric', 'min:1'],
-            'products.*.quantity' => ['numeric', 'min:1'],
+            'products.*.quantity' => ['numeric', 'min:0.001'],
             'products.*.price' => ['numeric', 'min:0'],
         ],[
             'date.required' => 'Tanggal wajib diisi',

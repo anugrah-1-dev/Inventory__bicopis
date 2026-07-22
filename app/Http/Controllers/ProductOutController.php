@@ -76,7 +76,7 @@ class ProductOutController extends Controller
             'date' => ['required', 'date'],
             'shift' => ['nullable', 'in:1,2'],
             'products.*.id' => ['numeric', 'min:1'],
-            'products.*.quantity' => ['numeric', 'min:1'],
+            'products.*.quantity' => ['numeric', 'min:0.001'],
         ],[
             'date.required' => 'Tanggal wajib diisi',
             'shift.in' => 'Shift tidak valid',

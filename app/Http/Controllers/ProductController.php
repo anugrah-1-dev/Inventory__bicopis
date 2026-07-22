@@ -64,7 +64,7 @@ class ProductController extends Controller
             'price' => ['required', 'numeric', 'min:0'],
             'code' => ['string', 'nullable', 'unique:products,code,NULL,id,shop_id,'.$shop_id],
             'description' => ['string', 'nullable'],
-            'stock' => ['required', 'integer', 'min:0'],
+            'stock' => ['required', 'numeric', 'min:0'],
             'category' => ['required', 'string'],
             'unit' => ['required', 'string'],
             'department' => ['required', 'in:kitchen,bar']
@@ -77,7 +77,7 @@ class ProductController extends Controller
             'price.min' => 'Harga minimal 0',
             'code.unique' => 'Barcode barang sudah ada',
             'stock.required' => 'Stok wajib diisi',
-            'stock.integer' => 'Stok harus berupa angka',
+            'stock.numeric' => 'Stok harus berupa angka',
             'stock.min' => 'Stok tidak boleh negatif',
             'category.required' => 'Kategori wajib diisi', 
             'category.string' => 'Kategori harus berupa teks',

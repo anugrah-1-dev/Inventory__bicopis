@@ -152,7 +152,8 @@ export default function New({ auth, products, flash }: PageProps &
                                 label="Jumlah"
                                 value={product.quantity || ''}
                                 type="number"
-                                min={1}
+                                min={0.001}
+                                step="any"
                                 max={product.stock}
                                 id="quantity"
                                 errorMsg={product.stock === 0 && product.id > 0 ? 'Stok barang habis': ''}

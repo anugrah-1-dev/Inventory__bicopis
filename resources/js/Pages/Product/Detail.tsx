@@ -103,6 +103,8 @@ export default function Detail({
                             label="Stok"
                             value={data.stock}
                             type="number"
+                            min={0.001}
+                            step="any"
                             onChange={(e) => setData("stock", +e.target.value)}
                             id="stock"
                             errorMsg={errors.stock}
